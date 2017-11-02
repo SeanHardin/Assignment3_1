@@ -4,12 +4,14 @@
  *  Created on: Oct 30, 2017
  *      Author: Sean
  *      template class for link based stack, includes definitions because templates
+ *      submission 2
  */
 
 #ifndef LINKEDSTACK_H_
 #define LINKEDSTACK_H_
 #include <iostream>
 using namespace std;
+#include <assert.h>
 
 	//***PART I********************************************
 
@@ -40,9 +42,9 @@ LinkedStack<T>::LinkedStack(){
 	top = NULL;
 }
 
-template <typename T>//constructor
+template <typename T>//returns whether or not stack is empty
 bool LinkedStack<T>::isEmpty(){
-	return top == NULL;
+	return top == NULL;//if top is null, stack is empty
 }
 
 template <typename T>//returns number of entries in stack
@@ -58,11 +60,13 @@ int LinkedStack<T>::getCount(){
 
 template <typename T>//return top node
 Node<T> LinkedStack<T>::getTop(){
+	assert(!isEmpty());//stop application if illegal operation
 	return top;
 }
 
 template <typename T>//destroy and return top node
 Node<T> LinkedStack<T>::pop(){
+	assert(!isEmpty());//stop application if illegal operation
 	Node<T> *pdel = top;//to delete
 	Node<T> temp = *top;//to return
 	if (!isEmpty()){
@@ -72,7 +76,7 @@ Node<T> LinkedStack<T>::pop(){
 	return temp;
 }
 
-template <typename T>//add onto the stack
+template <typename T>//add element to top of the stack
 void LinkedStack<T>::push(const T& datum){
 	Node<T> *pnewNode = new Node<T>();
 	pnewNode->data = datum;
@@ -80,19 +84,19 @@ void LinkedStack<T>::push(const T& datum){
 	top = pnewNode;
 }
 
-template <typename T>//empty list
+template <typename T>//pops elements until the list is empty
 void LinkedStack<T>::destroy(){
-	while (!isEmpty()){//top != NULL){
+	while (!isEmpty()){
 		pop();
 	}
 }
 
-template <typename T>//destructor
+template <typename T>//destructor, runs destroy, which deletes all elements
 LinkedStack<T>::~LinkedStack(){
 	this->destroy();
 }
 
-template <typename T>//convert stack into stream
+template <typename T>//convert stack into stream, every element has its own row, top refers to top of stack
 ostream& operator<<(ostream& os, LinkedStack<T>& a){
 	Node<T> *tempTop=a.top;
 	while (tempTop!=NULL){
